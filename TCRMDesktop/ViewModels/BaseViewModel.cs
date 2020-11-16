@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Caliburn.Micro;
 
 namespace TCRMDesktopUI.ViewModels
 {
-    class BaseViewModel
+    public class BaseViewModel : Conductor<object>
     {
+        private LoginViewModel _loginVM;
+
+        public BaseViewModel(LoginViewModel loginVM)
+        {
+            _loginVM = loginVM;
+            ActivateItem(_loginVM);
+        }
     }
 }
