@@ -1,4 +1,7 @@
 ﻿using Caliburn.Micro;
+using System;
+using System.Threading.Tasks;
+using TCRMDesktopUI.Helper;
 
 namespace TCRMDesktopUI.ViewModels
 {
@@ -28,6 +31,13 @@ namespace TCRMDesktopUI.ViewModels
             }
         }
 
+        private readonly IAPIHelper _apiHelper;
+
+        public LoginViewModel(IAPIHelper apiHelper)
+        {
+            _apiHelper = apiHelper;
+        }
+
         public bool CanLogIn
         {
             get => UserName?.Length > 0 && Password?.Length > 0;
@@ -39,9 +49,16 @@ namespace TCRMDesktopUI.ViewModels
         }
 
 
-        public void LogIn(string userName, string password)
+        public async Task LogIn()
         {
-
+            try
+            {
+                var res = await _apiHelper.Authenticate(UserName, Password);
+            }
+            catch (Exception ex)
+            {
+                System.Console.WriteLine(ex.Message);
+            }
         }
     }
 }

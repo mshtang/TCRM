@@ -20,50 +20,33 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-
         <TextBlock
             Grid.Row="0"
-            Grid.ColumnSpan="2"
             HorizontalAlignment="Center"
             FontSize="64"
             Text="Login onto Your Account" />
 
         <!--  Username row  -->
-        <TextBlock
-            Grid.Row="1"
-            Grid.Column="0"
-            Margin="0,20,20,20"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Center"
-            Text="User Name" />
         <TextBox
-            x:Name="UserName"
             Grid.Row="1"
-            Grid.Column="1"
-            Width="300"
+            Width="500"
             Height="50"
-            HorizontalAlignment="Left" />
+            Margin="20"
+            HorizontalAlignment="Center"
+            md:HintAssist.Hint="User"
+            Text="{Binding Path=UserName, UpdateSourceTrigger=PropertyChanged}" />
 
         <!--  Password row  -->
-        <TextBlock
-            Grid.Row="2"
-            Grid.Column="0"
-            Margin="0,20,20,20"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Center"
-            Text="Password" />
         <PasswordBox
             x:Name="Password"
             Grid.Row="2"
-            Grid.Column="1"
-            Width="300"
+            Width="500"
             Height="50"
-            HorizontalAlignment="Left"
-            md:TextFieldAssist.HasClearButton="True" />
+            Margin="20"
+            HorizontalAlignment="Center"
+            md:HintAssist.Hint="Password"
+            md:TextFieldAssist.HasClearButton="True"
+            PasswordChanged="PasswordBox_PasswordChanged" />
 
         <!--  Login button  -->
         <Button
@@ -74,7 +57,7 @@
             Height="80"
             Margin="0,20"
             Content="Log in"
-            FontSize="36" />
+            FontSize="32" />
 
     </Grid>
 </UserControl>
