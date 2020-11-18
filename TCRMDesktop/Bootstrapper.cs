@@ -6,6 +6,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using TCRMDesktopUI.Helper;
+using TCRMDesktopUI.Library.Api;
+using TCRMDesktopUI.Library.Models;
 using TCRMDesktopUI.ViewModels;
 
 namespace TCRMDesktopUI
@@ -33,6 +35,7 @@ namespace TCRMDesktopUI
                 .Singleton<IWindowManager, WindowManager>()
                 .Singleton<IEventAggregator, EventAggregator>()
                 .Singleton<IAPIHelper, APIHelper>()
+                .Singleton<ILoggedInUserModel, LoggedInUserModel>()
                 .Instance(_snackbarMessageQueue);
 
 

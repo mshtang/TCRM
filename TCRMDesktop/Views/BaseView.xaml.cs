@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using TCRMDesktopUI.ViewModels;
 
 namespace TCRMDesktopUI.Views
 {
@@ -8,9 +7,8 @@ namespace TCRMDesktopUI.Views
     /// </summary>
     public partial class BaseView : Window
     {
-        public BaseView(BaseViewModel baseViewModel)
+        public BaseView()
         {
-            DataContext = baseViewModel;
             InitializeComponent();
         }
     }

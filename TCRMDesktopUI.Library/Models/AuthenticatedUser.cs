@@ -1,4 +1,4 @@
-﻿namespace TCRMDesktopUI.Models
+﻿namespace TCRMDesktopUI.Library.Models
 {
     public class AuthenticatedUser
     {

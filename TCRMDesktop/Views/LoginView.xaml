@@ -61,7 +61,7 @@
             FontSize="32" />
 
         <!--  Snackbar row  -->
-        <md:Snackbar Grid.Row="4" MessageQueue="{Binding ErrorMessQ}" />
+        <md:Snackbar Grid.Row="4" MessageQueue="{Binding SbMessQ}" />
 
     </Grid>
 </UserControl>

@@ -9,6 +9,10 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "TCRMData", "TRMData\TCRMDat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TCRMDesktopUI", "TCRMDesktop\TCRMDesktopUI.csproj", "{55D7436C-48A4-4493-A730-A3181D14933A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TCRMDataManager.Library", "TCRMDataManager.Library\TCRMDataManager.Library.csproj", "{47103C94-9563-4909-A5B4-4B16E0676AA6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TCRMDesktopUI.Library", "TCRMDesktopUI.Library\TCRMDesktopUI.Library.csproj", "{224DCEED-8637-47AA-886E-7B8801C925F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +33,14 @@ Global
 		{55D7436C-48A4-4493-A730-A3181D14933A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55D7436C-48A4-4493-A730-A3181D14933A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55D7436C-48A4-4493-A730-A3181D14933A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47103C94-9563-4909-A5B4-4B16E0676AA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47103C94-9563-4909-A5B4-4B16E0676AA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47103C94-9563-4909-A5B4-4B16E0676AA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47103C94-9563-4909-A5B4-4B16E0676AA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{224DCEED-8637-47AA-886E-7B8801C925F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{224DCEED-8637-47AA-886E-7B8801C925F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{224DCEED-8637-47AA-886E-7B8801C925F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{224DCEED-8637-47AA-886E-7B8801C925F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

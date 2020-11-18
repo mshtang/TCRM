@@ -2,7 +2,7 @@
 using MaterialDesignThemes.Wpf;
 using System;
 using System.Threading.Tasks;
-using TCRMDesktopUI.Helper;
+using TCRMDesktopUI.Library.Api;
 
 namespace TCRMDesktopUI.ViewModels
 {
@@ -34,23 +34,23 @@ namespace TCRMDesktopUI.ViewModels
 
         private readonly IAPIHelper _apiHelper;
         //public SnackbarMessageQueue ErrorMessQ { get; set; }
-        public ISnackbarMessageQueue ErrorMessQ { get; set; }
+        public ISnackbarMessageQueue SbMessQ { get; set; }
+
+        public LoginViewModel()
+        {
+
+        }
 
         public LoginViewModel(IAPIHelper apiHelper, ISnackbarMessageQueue sbMessQ)
         {
             _apiHelper = apiHelper;
             //ErrorMessQ = new SnackbarMessageQueue();
-            ErrorMessQ = sbMessQ;
+            SbMessQ = sbMessQ;
         }
 
         public bool CanLogIn
         {
             get => UserName?.Length > 0 && Password?.Length > 0;
-        }
-
-        public LoginViewModel()
-        {
-
         }
 
 
@@ -59,11 +59,14 @@ namespace TCRMDesktopUI.ViewModels
             try
             {
                 var res = await _apiHelper.Authenticate(UserName, Password);
+                await _apiHelper.GetLoggedInUserInfo(res.Access_Token);
+                SbMessQ.Enqueue("Success!");
+
             }
             catch (Exception ex)
             {
                 System.Console.WriteLine(ex.Message);
-                ErrorMessQ.Enqueue("Either your user name or your password is wrong.", "Retry", () => { UserName = string.Empty; Password = null; });
+                SbMessQ.Enqueue("Either your user name or your password is wrong.", "Retry", () => { UserName = string.Empty; Password = null; });
             }
         }
     }
