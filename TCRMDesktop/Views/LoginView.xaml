@@ -17,6 +17,7 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
@@ -58,6 +59,9 @@
             Margin="0,20"
             Content="Log in"
             FontSize="32" />
+
+        <!--  Snackbar row  -->
+        <md:Snackbar Grid.Row="4" MessageQueue="{Binding ErrorMessQ}" />
 
     </Grid>
 </UserControl>

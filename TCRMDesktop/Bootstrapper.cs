@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace TCRMDesktopUI
     public class Bootstrapper : BootstrapperBase
     {
         private SimpleContainer _container = new SimpleContainer();
+        private ISnackbarMessageQueue _snackbarMessageQueue = new SnackbarMessageQueue();
 
         public Bootstrapper()
         {
@@ -30,7 +32,9 @@ namespace TCRMDesktopUI
             _container
                 .Singleton<IWindowManager, WindowManager>()
                 .Singleton<IEventAggregator, EventAggregator>()
-                .Singleton<IAPIHelper, APIHelper>();
+                .Singleton<IAPIHelper, APIHelper>()
+                .Instance(_snackbarMessageQueue);
+
 
             GetType().Assembly.GetTypes()
                 .Where(t => t.IsClass)

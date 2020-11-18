@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Threading.Tasks;
 using TCRMDesktopUI.Helper;
@@ -32,10 +33,14 @@ namespace TCRMDesktopUI.ViewModels
         }
 
         private readonly IAPIHelper _apiHelper;
+        //public SnackbarMessageQueue ErrorMessQ { get; set; }
+        public ISnackbarMessageQueue ErrorMessQ { get; set; }
 
-        public LoginViewModel(IAPIHelper apiHelper)
+        public LoginViewModel(IAPIHelper apiHelper, ISnackbarMessageQueue sbMessQ)
         {
             _apiHelper = apiHelper;
+            //ErrorMessQ = new SnackbarMessageQueue();
+            ErrorMessQ = sbMessQ;
         }
 
         public bool CanLogIn
@@ -58,6 +63,7 @@ namespace TCRMDesktopUI.ViewModels
             catch (Exception ex)
             {
                 System.Console.WriteLine(ex.Message);
+                ErrorMessQ.Enqueue("Either your user name or your password is wrong.", "Retry", () => { UserName = string.Empty; Password = null; });
             }
         }
     }
