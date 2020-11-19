@@ -43,7 +43,7 @@ namespace TCRMDesktopUI.ViewModels
 
         public bool CanAddToCart
         {
-            get => Products.Count > 0;
+            get => true;
         }
 
         public void AddToCart()

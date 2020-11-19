@@ -2,6 +2,7 @@
 using MaterialDesignThemes.Wpf;
 using System;
 using System.Threading.Tasks;
+using TCRMDesktopUI.EventModels;
 using TCRMDesktopUI.Library.Api;
 
 namespace TCRMDesktopUI.ViewModels
@@ -33,19 +34,19 @@ namespace TCRMDesktopUI.ViewModels
         }
 
         private readonly IAPIHelper _apiHelper;
-        //public SnackbarMessageQueue ErrorMessQ { get; set; }
         public ISnackbarMessageQueue SbMessQ { get; set; }
+        private IEventAggregator _events;
 
         public LoginViewModel()
         {
 
         }
 
-        public LoginViewModel(IAPIHelper apiHelper, ISnackbarMessageQueue sbMessQ)
+        public LoginViewModel(IAPIHelper apiHelper, ISnackbarMessageQueue sbMessQ, IEventAggregator events)
         {
             _apiHelper = apiHelper;
-            //ErrorMessQ = new SnackbarMessageQueue();
             SbMessQ = sbMessQ;
+            _events = events;
         }
 
         public bool CanLogIn
@@ -60,7 +61,7 @@ namespace TCRMDesktopUI.ViewModels
             {
                 var res = await _apiHelper.Authenticate(UserName, Password);
                 await _apiHelper.GetLoggedInUserInfo(res.Access_Token);
-                SbMessQ.Enqueue("Success!");
+                _events.PublishOnUIThread(new LogInEvent());
             }
             catch (Exception ex)
             {
