@@ -61,7 +61,6 @@ namespace TCRMDesktopUI.ViewModels
                 var res = await _apiHelper.Authenticate(UserName, Password);
                 await _apiHelper.GetLoggedInUserInfo(res.Access_Token);
                 SbMessQ.Enqueue("Success!");
-
             }
             catch (Exception ex)
             {
