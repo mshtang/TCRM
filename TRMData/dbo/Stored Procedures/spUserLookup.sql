@@ -5,6 +5,6 @@ begin
 	set nocount on;
 
 	select Id, FirstName, LastName, EmailAddress, CreatedDate
-	from [dbo].[User]
+	from dbo.[User]
 	where Id = @Id;
 end

@@ -11,6 +11,11 @@ namespace TCRMDesktopUI.Library.Api
     public class APIHelper : IAPIHelper
     {
         private HttpClient _apiClient;
+        public HttpClient ApiClient
+        {
+            get => _apiClient;
+        }
+
         private ILoggedInUserModel _loggedInUser;
 
         public APIHelper(ILoggedInUserModel loggedInUser)

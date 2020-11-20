@@ -1,13 +1,29 @@
 ﻿using Caliburn.Micro;
 using System.ComponentModel;
+using TCRMDesktopUI.Library.Api;
+using TCRMDesktopUI.Library.Models;
 
 namespace TCRMDesktopUI.ViewModels
 {
     public class SalesViewModel : Screen
     {
-        private BindingList<string> _products;
+        private IProductEndpoint _productEndpoint;
 
-        public BindingList<string> Products
+        public SalesViewModel(IProductEndpoint productEndPoint)
+        {
+            _productEndpoint = productEndPoint;
+        }
+
+        protected override async void OnViewLoaded(object view)
+        {
+            base.OnViewLoaded(view);
+            var _productList = await _productEndpoint.GetAll();
+            Products = new BindingList<ProductModel>(_productList);
+        }
+
+        private BindingList<ProductModel> _products;
+
+        public BindingList<ProductModel> Products
         {
             get => _products;
             set
@@ -73,7 +89,6 @@ namespace TCRMDesktopUI.ViewModels
             }
         }
 
-
         private decimal _tax;
 
         public decimal Tax
@@ -86,7 +101,6 @@ namespace TCRMDesktopUI.ViewModels
             }
         }
 
-
         private decimal _total;
 
         public decimal Total
@@ -98,7 +112,6 @@ namespace TCRMDesktopUI.ViewModels
                 NotifyOfPropertyChange(() => Total);
             }
         }
-
 
         public bool CanCheckout
         {
