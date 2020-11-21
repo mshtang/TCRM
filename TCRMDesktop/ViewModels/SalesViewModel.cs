@@ -1,7 +1,7 @@
 ﻿using Caliburn.Micro;
-using System.ComponentModel;
+using System.Collections.ObjectModel;
+using System.Linq;
 using TCRMDesktopUI.Library.Api;
-using TCRMDesktopUI.Library.Models;
 
 namespace TCRMDesktopUI.ViewModels
 {
@@ -18,63 +18,70 @@ namespace TCRMDesktopUI.ViewModels
         {
             base.OnViewLoaded(view);
             var _productList = await _productEndpoint.GetAll();
-            Products = new BindingList<ProductModel>(_productList);
+            Products = new ObservableCollection<ProductViewModel>(_productList.Select(p => new ProductViewModel(p)));
         }
 
-        private BindingList<ProductModel> _products;
+        private ObservableCollection<ProductViewModel> _products;
 
-        public BindingList<ProductModel> Products
+        public ObservableCollection<ProductViewModel> Products
         {
             get => _products;
             set
             {
                 _products = value;
-                NotifyOfPropertyChange(() => Products);
+                NotifyOfPropertyChange(nameof(Products));
             }
         }
 
-        private int _itemQuantity;
+        private int? _itemQuantity;
 
-        public int ItemQuantity
+        public int? ItemQuantity
         {
             get => _itemQuantity;
             set
             {
                 _itemQuantity = value;
                 NotifyOfPropertyChange(() => ItemQuantity);
+                NotifyOfPropertyChange(() => CanAddToCart);
             }
         }
 
-        private BindingList<string> _cart;
+        private ObservableCollection<ProductViewModel> _cart;
 
-        public BindingList<string> Cart
+        public ObservableCollection<ProductViewModel> Cart
         {
             get => _cart;
             set
             {
                 _cart = value;
-                NotifyOfPropertyChange(() => Cart);
+                NotifyOfPropertyChange(nameof(Cart));
             }
         }
 
-        public bool CanAddToCart
+        private ProductViewModel _selectedItemToAdd;
+
+        public ProductViewModel SelectedItemToAdd
         {
-            get => true;
+            get => _selectedItemToAdd;
+            set
+            {
+                _selectedItemToAdd = value;
+                NotifyOfPropertyChange(() => SelectedItemToAdd);
+                NotifyOfPropertyChange(() => CanAddToCart);
+            }
         }
 
-        public void AddToCart()
+        private ProductViewModel _selectedItemToRemove;
+
+        public ProductViewModel SelectedItemToRemove
         {
-
-        }
-
-        public bool CanRemoveFromCart()
-        {
-            return true;
-        }
-
-        public void RemoveFromCart()
-        {
-
+            get => _selectedItemToRemove;
+            set
+            {
+                _selectedItemToRemove = value;
+                NotifyOfPropertyChange(() => SelectedItemToRemove);
+                NotifyOfPropertyChange(() => CanRemoveFromCart);
+            }
         }
 
         private decimal _subtotal;
@@ -112,6 +119,71 @@ namespace TCRMDesktopUI.ViewModels
                 NotifyOfPropertyChange(() => Total);
             }
         }
+
+        public bool CanAddToCart
+        {
+            get => SelectedItemToAdd?.QuantityInStock >= ItemQuantity && ItemQuantity > 0;
+        }
+
+        public void AddToCart()
+        {
+            if (Cart == null)
+                Cart = new ObservableCollection<ProductViewModel>();
+
+            var cartItem = Cart.FirstOrDefault(p => p.Id == SelectedItemToAdd.Id);
+            if (cartItem == null)
+            {
+                Cart.Add(new ProductViewModel
+                {
+                    Id = SelectedItemToAdd.Id,
+                    Description = SelectedItemToAdd.Description,
+                    ProductName = SelectedItemToAdd.ProductName,
+                    QuantityInStock = ItemQuantity.Value,
+                    RetailPrice = SelectedItemToAdd.RetailPrice
+                });
+            }
+            else
+            {
+                var itemInCartToUpdate = Cart.FirstOrDefault(p => p.Id == cartItem.Id);
+                Cart[Cart.IndexOf(itemInCartToUpdate)].QuantityInStock += ItemQuantity.Value;
+            }
+
+            Subtotal = Cart.Select(p => p.QuantityInStock * p.RetailPrice).Sum();
+
+            var itemToUpdate = Products.FirstOrDefault(p => p.Id == SelectedItemToAdd.Id);
+            Products[Products.IndexOf(itemToUpdate)].QuantityInStock -= ItemQuantity.Value;
+
+            ItemQuantity = 1;
+        }
+
+        public bool CanRemoveFromCart
+        {
+            get => SelectedItemToRemove?.QuantityInStock >= ItemQuantity && ItemQuantity > 0;
+        }
+
+        public void RemoveFromCart()
+        {
+            var cartItem = Cart.FirstOrDefault(p => p.Id == SelectedItemToRemove.Id);
+            var itemInCartToUpdate = Cart.FirstOrDefault(p => p.Id == cartItem.Id);
+            if (itemInCartToUpdate.QuantityInStock - ItemQuantity.Value == 0)
+            {
+                Cart.Remove(itemInCartToUpdate);
+            }
+            else
+            {
+                Cart[Cart.IndexOf(itemInCartToUpdate)].QuantityInStock -= ItemQuantity.Value;
+            }
+
+
+            Subtotal = Cart.Select(p => p.QuantityInStock * p.RetailPrice).Sum();
+
+            var itemToUpdate = Products.FirstOrDefault(p => p.Id == SelectedItemToAdd.Id);
+            Products[Products.IndexOf(itemToUpdate)].QuantityInStock += ItemQuantity.Value;
+
+            ItemQuantity = 1;
+
+        }
+
 
         public bool CanCheckout
         {

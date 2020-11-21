@@ -8,6 +8,7 @@
     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
     d:DesignStyle="{StaticResource MyDesignStyle}"
     FontSize="36"
+    Loaded="AutoLoginForDebug"
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
@@ -56,10 +57,24 @@
             Height="80"
             Margin="0,20"
             Content="Log in"
-            FontSize="32" />
+            FontSize="32"
+            Visibility="{Binding Path=IsLoggingIn, Converter={StaticResource InverseBoolToVisibilityConverter}}" />
+
+        <ProgressBar
+            Grid.Row="3"
+            Width="25"
+            IsIndeterminate="True"
+            Style="{StaticResource MaterialDesignCircularProgressBar}"
+            Visibility="{Binding Path=IsLoggingIn, Converter={StaticResource BoolToVisibilityConverter}}"
+            Value="0">
+            <ProgressBar.LayoutTransform>
+                <ScaleTransform CenterX="0.5" CenterY="0.5" ScaleX="2" ScaleY="2" />
+            </ProgressBar.LayoutTransform>
+        </ProgressBar>
 
         <!--  Snackbar row  -->
         <md:Snackbar Grid.Row="4" MessageQueue="{Binding SbMessQ}" />
+
 
     </Grid>
 </UserControl>

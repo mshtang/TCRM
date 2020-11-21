@@ -54,9 +54,22 @@ namespace TCRMDesktopUI.ViewModels
             get => UserName?.Length > 0 && Password?.Length > 0;
         }
 
+        private bool _isLoggingIn;
+
+        public bool IsLoggingIn
+        {
+            get => _isLoggingIn;
+            set
+            {
+                _isLoggingIn = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
 
         public async Task LogIn()
         {
+            IsLoggingIn = true;
             try
             {
                 var res = await _apiHelper.Authenticate(UserName, Password);
@@ -65,6 +78,7 @@ namespace TCRMDesktopUI.ViewModels
             }
             catch (Exception ex)
             {
+                IsLoggingIn = false;
                 System.Console.WriteLine(ex.Message);
                 SbMessQ.Enqueue("Either your user name or your password is wrong.", "Retry", () => { UserName = string.Empty; Password = null; });
             }

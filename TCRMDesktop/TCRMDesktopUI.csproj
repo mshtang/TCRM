@@ -83,9 +83,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="EventModels\LogInEvent.cs" />
+    <Compile Include="Helper\Converters.cs" />
     <Compile Include="Helper\PasswordBoxHelper.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\ProductViewModel.cs" />
     <Compile Include="ViewModels\SalesViewModel.cs" />
     <Compile Include="Views\BaseView.xaml.cs">
       <DependentUpon>BaseView.xaml</DependentUpon>
