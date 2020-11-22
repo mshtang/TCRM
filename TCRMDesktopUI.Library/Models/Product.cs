@@ -1,6 +1,6 @@
-﻿namespace TCRMDataManager.Library.Models
+﻿namespace TCRMDesktopUI.Library.Models
 {
-    public class ProductModel
+    public class Product
     {
         public int Id { get; set; }
 
@@ -11,5 +11,7 @@
         public decimal RetailPrice { get; set; }
 
         public int QuantityInStock { get; set; }
+
+        public TaxCategory Tax { get; set; }
     }
 }

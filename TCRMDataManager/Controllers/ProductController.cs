@@ -8,7 +8,7 @@ namespace TCRMDataManager.Controllers
     [Authorize]
     public class ProductController : ApiController
     {
-        public List<ProductModel> Get()
+        public List<Product> Get()
         {
             var data = new ProductData();
             return data.GetProducts();

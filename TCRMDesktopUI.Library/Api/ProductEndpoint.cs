@@ -15,13 +15,13 @@ namespace TCRMDesktopUI.Library.Api
             _apiHelper = apiHelper;
         }
 
-        public async Task<List<ProductModel>> GetAll()
+        public async Task<List<Product>> GetAll()
         {
             using (var response = await _apiHelper.ApiClient.GetAsync("/api/Product"))
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = await response.Content.ReadAsAsync<List<ProductModel>>();
+                    var result = await response.Content.ReadAsAsync<List<Product>>();
                     return result;
                 }
                 else

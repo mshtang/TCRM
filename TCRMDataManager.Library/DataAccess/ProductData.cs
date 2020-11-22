@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
-using TCRMDataManager.Library.Internal.DataAccess;
+using System.Linq;
 using TCRMDataManager.Library.Models;
 
 namespace TCRMDataManager.Library.DataAccess
 {
     public class ProductData
     {
-        public List<ProductModel> GetProducts()
+        public List<Product> GetProducts()
         {
-            var sql = new SqlDataAccess();
-            return sql.LoadData<ProductModel, dynamic>("dbo.spProduct_GetAll", null, "TCRMData");
+            var context = new TCRMContext("TCRMData");
+            return context.Products.Include("Tax").ToList();
         }
     }
 }

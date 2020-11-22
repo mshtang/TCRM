@@ -11,6 +11,8 @@ namespace TCRMDesktopUI.ViewModels
 
         public string ProductName { get; set; }
 
+        public TaxCategory Tax { get; set; }
+
         public string Description { get; set; }
 
         private int _quantityInStock;
@@ -30,10 +32,11 @@ namespace TCRMDesktopUI.ViewModels
 
         }
 
-        public ProductViewModel(ProductModel pm)
+        public ProductViewModel(Product pm)
         {
             Id = pm.Id;
             RetailPrice = pm.RetailPrice;
+            Tax = pm.Tax;
             ProductName = pm.ProductName;
             Description = pm.Description;
             QuantityInStock = pm.QuantityInStock;

@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using TCRMDesktopUI.Library.Api;
@@ -29,7 +30,7 @@ namespace TCRMDesktopUI.ViewModels
             set
             {
                 _products = value;
-                NotifyOfPropertyChange(nameof(Products));
+                NotifyOfPropertyChange();
             }
         }
 
@@ -41,8 +42,9 @@ namespace TCRMDesktopUI.ViewModels
             set
             {
                 _itemQuantity = value;
-                NotifyOfPropertyChange(() => ItemQuantity);
-                NotifyOfPropertyChange(() => CanAddToCart);
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(CanAddToCart));
+                NotifyOfPropertyChange(nameof(CanRemoveFromCart));
             }
         }
 
@@ -54,7 +56,7 @@ namespace TCRMDesktopUI.ViewModels
             set
             {
                 _cart = value;
-                NotifyOfPropertyChange(nameof(Cart));
+                NotifyOfPropertyChange();
             }
         }
 
@@ -66,8 +68,8 @@ namespace TCRMDesktopUI.ViewModels
             set
             {
                 _selectedItemToAdd = value;
-                NotifyOfPropertyChange(() => SelectedItemToAdd);
-                NotifyOfPropertyChange(() => CanAddToCart);
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(CanAddToCart));
             }
         }
 
@@ -79,8 +81,8 @@ namespace TCRMDesktopUI.ViewModels
             set
             {
                 _selectedItemToRemove = value;
-                NotifyOfPropertyChange(() => SelectedItemToRemove);
-                NotifyOfPropertyChange(() => CanRemoveFromCart);
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(CanRemoveFromCart));
             }
         }
 
@@ -92,7 +94,7 @@ namespace TCRMDesktopUI.ViewModels
             set
             {
                 _subtotal = value;
-                NotifyOfPropertyChange(() => Subtotal);
+                NotifyOfPropertyChange();
             }
         }
 
@@ -104,7 +106,7 @@ namespace TCRMDesktopUI.ViewModels
             set
             {
                 _tax = value;
-                NotifyOfPropertyChange(() => Tax);
+                NotifyOfPropertyChange();
             }
         }
 
@@ -116,7 +118,7 @@ namespace TCRMDesktopUI.ViewModels
             set
             {
                 _total = value;
-                NotifyOfPropertyChange(() => Total);
+                NotifyOfPropertyChange();
             }
         }
 
@@ -139,6 +141,7 @@ namespace TCRMDesktopUI.ViewModels
                     Description = SelectedItemToAdd.Description,
                     ProductName = SelectedItemToAdd.ProductName,
                     QuantityInStock = ItemQuantity.Value,
+                    Tax = SelectedItemToAdd.Tax,
                     RetailPrice = SelectedItemToAdd.RetailPrice
                 });
             }
@@ -148,7 +151,7 @@ namespace TCRMDesktopUI.ViewModels
                 Cart[Cart.IndexOf(itemInCartToUpdate)].QuantityInStock += ItemQuantity.Value;
             }
 
-            Subtotal = Cart.Select(p => p.QuantityInStock * p.RetailPrice).Sum();
+            UpdateMoneyToPay();
 
             var itemToUpdate = Products.FirstOrDefault(p => p.Id == SelectedItemToAdd.Id);
             Products[Products.IndexOf(itemToUpdate)].QuantityInStock -= ItemQuantity.Value;
@@ -175,7 +178,7 @@ namespace TCRMDesktopUI.ViewModels
             }
 
 
-            Subtotal = Cart.Select(p => p.QuantityInStock * p.RetailPrice).Sum();
+            UpdateMoneyToPay();
 
             var itemToUpdate = Products.FirstOrDefault(p => p.Id == SelectedItemToAdd.Id);
             Products[Products.IndexOf(itemToUpdate)].QuantityInStock += ItemQuantity.Value;
@@ -184,6 +187,12 @@ namespace TCRMDesktopUI.ViewModels
 
         }
 
+        private void UpdateMoneyToPay()
+        {
+            Subtotal = Math.Round(Cart.Select(p => p.QuantityInStock * p.RetailPrice).Sum(), 2, MidpointRounding.AwayFromZero);
+            Tax = Math.Round(Cart.Select(p => p.Tax.TaxRate * p.QuantityInStock * p.RetailPrice).Sum(), 2, MidpointRounding.AwayFromZero);
+            Total = Math.Round(Subtotal + Tax, 2, MidpointRounding.AwayFromZero);
+        }
 
         public bool CanCheckout
         {

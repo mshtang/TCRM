@@ -2,7 +2,7 @@
 
 namespace TCRMDataManager.Library.Models
 {
-    public class UserModel
+    public class User
     {
         public string Id { get; set; }
 
