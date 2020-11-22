@@ -7,4 +7,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="Id" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="2a24e62e-8264-45d7-aa7e-540ca1e0d237" ChangeDateTime="11/21/2020 17:52:29">
+    <Property Name="ElementName" Value="[dbo].[TaxCategory].[Tax]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[TaxCategory]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TaxLevel" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="8531196f-470a-4355-970a-c44e52fded86" ChangeDateTime="11/21/2020 18:11:35">
+    <Property Name="ElementName" Value="[dbo].[TaxCategory].[TaxLevel]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[TaxCategory]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TaxRate" />
+  </Operation>
 </Operations>
