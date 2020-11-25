@@ -9,8 +9,9 @@ namespace TCRMDataManager.Library.DataAccess
         public DbSet<User> Users { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<TaxCategory> TaxCategories { get; set; }
-        public DbSet<SaleDb> Sales { get; set; }
-        public DbSet<SaleDetailDb> SaleDetails { get; set; }
+        public DbSet<Sale> Sales { get; set; }
+        public DbSet<SaleDetail> SaleDetails { get; set; }
+        public DbSet<Inventory> Inventories { get; set; }
 
         public TCRMContext(string name) : base(ConfigurationManager.ConnectionStrings[name].ConnectionString)
         {
@@ -29,9 +30,28 @@ namespace TCRMDataManager.Library.DataAccess
 
             modelBuilder.Entity<TaxCategory>().ToTable("TaxCategory");
 
-            modelBuilder.Entity<SaleDb>().ToTable("Sale");
+            modelBuilder.Entity<Sale>()
+                .ToTable("Sale")
+                .HasRequired(s => s.User)
+                .WithMany()
+                .Map(m => m.MapKey("CashierId"));
 
-            modelBuilder.Entity<SaleDetailDb>().ToTable("SaleDetail");
+            //modelBuilder.Entity<Sale>()
+            //    .HasMany(s => s.SaleDetails)
+            //    .WithRequired(sd => sd.Sale);
+
+            modelBuilder.Entity<SaleDetail>()
+                .ToTable("SaleDetail")
+                .HasRequired(sd => sd.Sale)
+                .WithMany(s => s.SaleDetails)
+                .Map(m => m.MapKey("SaleId"));
+
+            modelBuilder.Entity<SaleDetail>()
+                .HasRequired(sd => sd.Product)
+                .WithMany()
+                .Map(m => m.MapKey("ProductId"));
+
+            modelBuilder.Entity<Inventory>().ToTable("Inventory");
         }
     }
 }

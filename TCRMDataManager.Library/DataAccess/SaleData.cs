@@ -6,50 +6,40 @@ namespace TCRMDataManager.Library.DataAccess
 {
     public class SaleData
     {
-        public void SaveSale(Sale saleInfo, string cashierId)
+        public void SaveSale(SalePost salePost, string userId)
         {
-            List<SaleDetailDb> details = new List<SaleDetailDb>();
-
-            var productData = new ProductData();
-
-            foreach (var item in saleInfo.SaleDetails)
-            {
-                var detail = new SaleDetailDb
-                {
-                    ProductId = item.ProductId,
-                    Quantity = item.Quantity
-                };
-
-                var productInfo = productData.GetProductById(item.ProductId);
-                detail.PurchasePrice = productInfo.RetailPrice * item.Quantity;
-                detail.Tax = detail.PurchasePrice * productInfo.Tax.TaxRate;
-
-                details.Add(detail);
-            }
-
-            SaleDb sale = new SaleDb
-            {
-                Subtotal = details.Sum(x => x.PurchasePrice),
-                Tax = details.Sum(x => x.Tax),
-                CashierId = cashierId
-            };
-
-            sale.Total = sale.Subtotal + sale.Tax;
-
+            var sale = new Sale();
             var context = new TCRMContext("TCRMData");
-            context.Sales.Add(sale);
-            context.SaveChanges();
+            var productIds = salePost.SaleDetails.Select(sd => sd.Product);
+            var products = context.Products.Include("Tax").Where(p => productIds.Contains(p.Id)).ToList();
 
-            sale.Id = context.Sales.Where(s => s.CashierId == sale.CashierId && s.SaleDate == sale.SaleDate).FirstOrDefault().Id;
-
-            foreach (var item in details)
+            foreach (var saleDetailPost in salePost.SaleDetails)
             {
-                item.SaleId = sale.Id;
-                context.SaleDetails.Add(item);
+                var product = products.Single(p => p.Id == saleDetailPost.Product);
+                var saleDetail = new SaleDetail();
+
+                saleDetail.Quantity = saleDetailPost.Quantity;
+                saleDetail.Product = product;
+                saleDetail.PurchasePrice = product.RetailPrice * saleDetailPost.Quantity;
+                saleDetail.Tax = product.Tax.TaxRate * saleDetailPost.Quantity;
+
+                sale.SaleDetails.Add(saleDetail);
             }
 
+            sale.Subtotal = sale.SaleDetails.Sum(x => x.PurchasePrice);
+            sale.Tax = sale.SaleDetails.Sum(x => x.Tax);
+            sale.Total = sale.Subtotal + sale.Tax;
+            sale.User = context.Users.Find(userId);
+
+            context.Sales.Add(sale);
             context.SaveChanges();
         }
 
+
+        public List<Sale> GetSaleReport()
+        {
+            var context = new TCRMContext("TCRMData");
+            return context.Sales.Include("SaleDetails").ToList();
+        }
     }
 }

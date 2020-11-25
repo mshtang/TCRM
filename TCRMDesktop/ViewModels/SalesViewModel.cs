@@ -204,10 +204,7 @@ namespace TCRMDesktopUI.ViewModels
             NotifyOfPropertyChange(nameof(CanCheckout));
         }
 
-        public bool CanCheckout
-        {
-            get => Cart?.Count > 0;
-        }
+        public bool CanCheckout => Cart?.Count > 0;
 
         public async Task Checkout()
         {
@@ -216,12 +213,12 @@ namespace TCRMDesktopUI.ViewModels
             {
                 sale.SaleDetails.Add(new SaleDetail
                 {
-                    ProductId = item.Id,
+                    Product = item.Id,
                     Quantity = item.QuantityInStock
                 });
             }
 
-            //await _saleEndpoint.PostSale(sale);
+            await _saleEndpoint.PostSale(sale);
             await ResetSalesViewModel();
         }
 

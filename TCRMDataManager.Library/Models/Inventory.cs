@@ -1,10 +1,10 @@
-﻿namespace TCRMDataManager.Library.Models
+﻿using System;
+
+namespace TCRMDataManager.Library.Models
 {
-    public class SaleDetailDb
+    public class Inventory
     {
         public int Id { get; set; }
-
-        public int SaleId { get; set; }
 
         public int ProductId { get; set; }
 
@@ -12,6 +12,6 @@
 
         public decimal PurchasePrice { get; set; }
 
-        public decimal Tax { get; set; }
+        public DateTime PurchaseDate { get; set; }
     }
 }
