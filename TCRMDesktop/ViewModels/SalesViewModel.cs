@@ -1,5 +1,7 @@
-﻿using Caliburn.Micro;
+﻿using AutoMapper;
+using Caliburn.Micro;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,23 +14,26 @@ namespace TCRMDesktopUI.ViewModels
     {
         private IProductEndpoint _productEndpoint;
         private ISaleEndpoint _saleEndpoint;
+        private IMapper _mapper;
 
-        public SalesViewModel(IProductEndpoint productEndPoint, ISaleEndpoint saleEndpoint)
+        public SalesViewModel(IProductEndpoint productEndPoint, ISaleEndpoint saleEndpoint, IMapper mapper)
         {
             _productEndpoint = productEndPoint;
             _saleEndpoint = saleEndpoint;
+            _mapper = mapper;
         }
 
         protected override async void OnViewLoaded(object view)
         {
             base.OnViewLoaded(view);
             var _productList = await _productEndpoint.GetAll();
-            Products = new ObservableCollection<ProductViewModel>(_productList.Select(p => new ProductViewModel(p)));
+            var products = _mapper.Map<List<ProductDisplayModel>>(_productList);
+            Products = new ObservableCollection<ProductDisplayModel>(products);
         }
 
-        private ObservableCollection<ProductViewModel> _products;
+        private ObservableCollection<ProductDisplayModel> _products;
 
-        public ObservableCollection<ProductViewModel> Products
+        public ObservableCollection<ProductDisplayModel> Products
         {
             get => _products;
             set
@@ -52,9 +57,9 @@ namespace TCRMDesktopUI.ViewModels
             }
         }
 
-        private ObservableCollection<ProductViewModel> _cart;
+        private ObservableCollection<ProductDisplayModel> _cart;
 
-        public ObservableCollection<ProductViewModel> Cart
+        public ObservableCollection<ProductDisplayModel> Cart
         {
             get => _cart;
             set
@@ -64,9 +69,9 @@ namespace TCRMDesktopUI.ViewModels
             }
         }
 
-        private ProductViewModel _selectedItemToAdd;
+        private ProductDisplayModel _selectedItemToAdd;
 
-        public ProductViewModel SelectedItemToAdd
+        public ProductDisplayModel SelectedItemToAdd
         {
             get => _selectedItemToAdd;
             set
@@ -77,9 +82,9 @@ namespace TCRMDesktopUI.ViewModels
             }
         }
 
-        private ProductViewModel _selectedItemToRemove;
+        private ProductDisplayModel _selectedItemToRemove;
 
-        public ProductViewModel SelectedItemToRemove
+        public ProductDisplayModel SelectedItemToRemove
         {
             get => _selectedItemToRemove;
             set
@@ -134,12 +139,12 @@ namespace TCRMDesktopUI.ViewModels
         public void AddToCart()
         {
             if (Cart == null)
-                Cart = new ObservableCollection<ProductViewModel>();
+                Cart = new ObservableCollection<ProductDisplayModel>();
 
             var cartItem = Cart.FirstOrDefault(p => p.Id == SelectedItemToAdd.Id);
             if (cartItem == null)
             {
-                Cart.Add(new ProductViewModel
+                Cart.Add(new ProductDisplayModel
                 {
                     Id = SelectedItemToAdd.Id,
                     Description = SelectedItemToAdd.Description,

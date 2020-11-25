@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using AutoMapper;
+using Caliburn.Micro;
 using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
@@ -29,9 +30,17 @@ namespace TCRMDesktopUI
 
         protected override void Configure()
         {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Product, ProductDisplayModel>();
+            });
+
+            var mapper = config.CreateMapper();
+
             _container
                 .Instance(_container)
-                .Instance(_snackbarMessageQueue);
+                .Instance(_snackbarMessageQueue)
+                .Instance(mapper);
 
             _container
                 .Singleton<IWindowManager, WindowManager>()
