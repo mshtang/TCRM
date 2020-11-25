@@ -2,17 +2,21 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using TCRMDesktopUI.Library.Api;
+using TCRMDesktopUI.Library.Models;
 
 namespace TCRMDesktopUI.ViewModels
 {
     public class SalesViewModel : Screen
     {
         private IProductEndpoint _productEndpoint;
+        private ISaleEndpoint _saleEndpoint;
 
-        public SalesViewModel(IProductEndpoint productEndPoint)
+        public SalesViewModel(IProductEndpoint productEndPoint, ISaleEndpoint saleEndpoint)
         {
             _productEndpoint = productEndPoint;
+            _saleEndpoint = saleEndpoint;
         }
 
         protected override async void OnViewLoaded(object view)
@@ -192,16 +196,27 @@ namespace TCRMDesktopUI.ViewModels
             Subtotal = Math.Round(Cart.Select(p => p.QuantityInStock * p.RetailPrice).Sum(), 2, MidpointRounding.AwayFromZero);
             Tax = Math.Round(Cart.Select(p => p.Tax.TaxRate * p.QuantityInStock * p.RetailPrice).Sum(), 2, MidpointRounding.AwayFromZero);
             Total = Math.Round(Subtotal + Tax, 2, MidpointRounding.AwayFromZero);
+            NotifyOfPropertyChange(nameof(CanCheckout));
         }
 
         public bool CanCheckout
         {
-            get => true;
+            get => Cart?.Count > 0;
         }
 
-        public void Checkout()
+        public async Task Checkout()
         {
+            var sale = new Sale();
+            foreach (var item in Cart)
+            {
+                sale.SaleDetails.Add(new SaleDetail
+                {
+                    ProductId = item.Id,
+                    Quantity = item.QuantityInStock
+                });
+            }
 
+            await _saleEndpoint.PostSale(sale);
         }
     }
 }

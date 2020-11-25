@@ -80,7 +80,8 @@ namespace TCRMDesktopUI.ViewModels
             {
                 IsLoggingIn = false;
                 System.Console.WriteLine(ex.Message);
-                SbMessQ.Enqueue("Either your user name or your password is wrong.", "Retry", () => { UserName = string.Empty; Password = null; });
+                //SbMessQ.Enqueue("Either your user name or your password is wrong.", "Retry", () => { UserName = string.Empty; Password = null; });
+                SbMessQ.Enqueue(ex.Message, "Retry", () => { UserName = string.Empty; Password = null; });
             }
         }
     }

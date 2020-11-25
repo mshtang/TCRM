@@ -29,15 +29,19 @@ namespace TCRMDesktopUI
 
         protected override void Configure()
         {
-            _container.Instance(_container)
+            _container
+                .Instance(_container)
                 .Instance(_snackbarMessageQueue);
 
             _container
                 .Singleton<IWindowManager, WindowManager>()
                 .Singleton<IEventAggregator, EventAggregator>()
                 .Singleton<IAPIHelper, APIHelper>()
-                .Singleton<ILoggedInUserModel, LoggedInUserModel>()
-                .PerRequest<IProductEndpoint, ProductEndpoint>();
+                .Singleton<ILoggedInUserModel, LoggedInUserModel>();
+
+            _container
+                .PerRequest<IProductEndpoint, ProductEndpoint>()
+                .PerRequest<ISaleEndpoint, SaleEndpoint>();
 
 
             GetType().Assembly.GetTypes()

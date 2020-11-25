@@ -11,5 +11,10 @@ namespace TCRMDataManager.Library.DataAccess
             var context = new TCRMContext("TCRMData");
             return context.Products.Include("Tax").ToList();
         }
+
+        public Product GetProductById(int id)
+        {
+            return GetProducts().Where(p => p.Id == id).FirstOrDefault();
+        }
     }
 }
