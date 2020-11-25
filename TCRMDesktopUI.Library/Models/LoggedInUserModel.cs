@@ -15,5 +15,15 @@ namespace TCRMDesktopUI.Library.Models
         public string EmailAddress { get; set; }
 
         public DateTime CreatedDate { get; set; }
+
+        public void ResetUserModel()
+        {
+            Token = string.Empty;
+            Id = string.Empty;
+            FirstName = string.Empty;
+            LastName = string.Empty;
+            EmailAddress = string.Empty;
+            CreatedDate = DateTime.MinValue;
+        }
     }
 }

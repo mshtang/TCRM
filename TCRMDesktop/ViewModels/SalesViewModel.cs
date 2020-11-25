@@ -221,7 +221,20 @@ namespace TCRMDesktopUI.ViewModels
                 });
             }
 
-            await _saleEndpoint.PostSale(sale);
+            //await _saleEndpoint.PostSale(sale);
+            await ResetSalesViewModel();
+        }
+
+        private async Task ResetSalesViewModel()
+        {
+            Cart = new ObservableCollection<ProductDisplayModel>();
+            ItemQuantity = null;
+            Subtotal = 0;
+            Tax = 0;
+            Total = 0;
+            var _productList = await _productEndpoint.GetAll();
+            var products = _mapper.Map<List<ProductDisplayModel>>(_productList);
+            Products = new ObservableCollection<ProductDisplayModel>(products);
         }
     }
 }
