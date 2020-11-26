@@ -16,12 +16,13 @@ namespace TCRMDataManager.Library.DataAccess
             foreach (var saleDetailPost in salePost.SaleDetails)
             {
                 var product = products.Single(p => p.Id == saleDetailPost.Product);
-                var saleDetail = new SaleDetail();
-
-                saleDetail.Quantity = saleDetailPost.Quantity;
-                saleDetail.Product = product;
-                saleDetail.PurchasePrice = product.RetailPrice * saleDetailPost.Quantity;
-                saleDetail.Tax = product.Tax.TaxRate * saleDetailPost.Quantity;
+                var saleDetail = new SaleDetail
+                {
+                    Quantity = saleDetailPost.Quantity,
+                    Product = product,
+                    PurchasePrice = product.RetailPrice * saleDetailPost.Quantity,
+                    Tax = product.Tax.TaxRate * saleDetailPost.Quantity
+                };
 
                 sale.SaleDetails.Add(saleDetail);
             }

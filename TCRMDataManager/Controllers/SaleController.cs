@@ -6,9 +6,11 @@ using TCRMDataManager.Library.Models;
 
 namespace TCRMDataManager.Controllers
 {
+
     [Authorize]
     public class SaleController : ApiController
     {
+        [Authorize(Roles = "Cashier")]
         public void Post(SalePost sale)
         {
             var userId = RequestContext.Principal.Identity.GetUserId();
@@ -17,7 +19,8 @@ namespace TCRMDataManager.Controllers
             data.SaveSale(sale, userId);
         }
 
-        [Route("GetSales")]
+        [Authorize(Roles = "Admin,Manager")]
+        [Route("GetSalesReport")]
         public List<Sale> GetSalesReport()
         {
             SaleData data = new SaleData();

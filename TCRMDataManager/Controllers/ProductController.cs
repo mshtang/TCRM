@@ -5,7 +5,7 @@ using TCRMDataManager.Library.Models;
 
 namespace TCRMDataManager.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Cashier")]
     public class ProductController : ApiController
     {
         public List<Product> Get()

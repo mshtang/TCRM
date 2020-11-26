@@ -23,10 +23,11 @@ namespace TCRMDataManager.Library.DataAccess
 
             modelBuilder.Entity<User>().ToTable("User");
 
-            modelBuilder.Entity<Product>().ToTable("Product")
-                                          .HasRequired(p => p.Tax)
-                                          .WithMany()
-                                          .Map(m => m.MapKey("Tax"));
+            modelBuilder.Entity<Product>()
+                .ToTable("Product")
+                .HasRequired(p => p.Tax)
+                .WithMany()
+                .Map(m => m.MapKey("Tax"));
 
             modelBuilder.Entity<TaxCategory>().ToTable("TaxCategory");
 
