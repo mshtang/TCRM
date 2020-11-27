@@ -40,7 +40,7 @@ namespace TCRMDataManager.Library.DataAccess
         public List<Sale> GetSaleReport()
         {
             var context = new TCRMContext("TCRMData");
-            return context.Sales.Include("SaleDetails").ToList();
+            return context.Sales.ToList();
         }
     }
 }

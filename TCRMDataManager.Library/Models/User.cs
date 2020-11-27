@@ -13,5 +13,7 @@ namespace TCRMDataManager.Library.Models
         public string EmailAddress { get; set; }
 
         public DateTime CreatedDate { get; set; }
+
+        public User() { }
     }
 }

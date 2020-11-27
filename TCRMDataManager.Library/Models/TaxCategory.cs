@@ -5,5 +5,7 @@
         public int Id { get; set; }
         public decimal TaxRate { get; set; }
         public string TaxLevel { get; set; }
+
+        public TaxCategory() { }
     }
 }

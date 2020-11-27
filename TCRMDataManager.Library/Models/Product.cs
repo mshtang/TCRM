@@ -10,8 +10,10 @@
 
         public decimal RetailPrice { get; set; }
 
-        public TaxCategory Tax { get; set; }
+        public virtual TaxCategory Tax { get; set; }
 
         public int QuantityInStock { get; set; }
+
+        public Product() { }
     }
 }

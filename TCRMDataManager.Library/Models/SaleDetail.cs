@@ -13,10 +13,12 @@
     {
         public virtual Sale Sale { get; set; }
 
-        public new Product Product { get; set; }
+        public new virtual Product Product { get; set; }
 
         public decimal PurchasePrice { get; set; }
 
         public decimal Tax { get; set; }
+
+        public SaleDetail() { }
     }
 }

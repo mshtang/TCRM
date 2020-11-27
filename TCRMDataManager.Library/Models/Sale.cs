@@ -12,7 +12,7 @@ namespace TCRMDataManager.Library.Models
 
     public class Sale : SalePost
     {
-        public User User { get; set; }
+        public virtual User User { get; set; }
 
         public DateTime SaleDate { get; set; } = DateTime.UtcNow;
 
@@ -22,6 +22,8 @@ namespace TCRMDataManager.Library.Models
 
         public decimal Total { get; set; }
 
-        public new List<SaleDetail> SaleDetails { get; set; } = new List<SaleDetail>();
+        public new virtual List<SaleDetail> SaleDetails { get; set; } = new List<SaleDetail>();
+
+        public Sale() { }
     }
 }
