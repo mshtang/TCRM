@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using TCRMDesktopUI.Helper;
 using TCRMDesktopUI.Library.Api;
 using TCRMDesktopUI.Library.Models;
+using TCRMDesktopUI.Models;
 using TCRMDesktopUI.ViewModels;
 
 namespace TCRMDesktopUI
@@ -33,6 +34,7 @@ namespace TCRMDesktopUI
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Product, ProductDisplayModel>();
+                cfg.CreateMap<AppUser, AppUserDisplayModel>();
             });
 
             var mapper = config.CreateMapper();
@@ -50,6 +52,7 @@ namespace TCRMDesktopUI
 
             _container
                 .PerRequest<IProductEndpoint, ProductEndpoint>()
+                .PerRequest<IUserEndpoint, UserEndpoint>()
                 .PerRequest<ISaleEndpoint, SaleEndpoint>();
 
 

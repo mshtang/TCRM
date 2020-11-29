@@ -1,7 +1,7 @@
 ﻿using Caliburn.Micro;
 using TCRMDesktopUI.Library.Models;
 
-namespace TCRMDesktopUI.ViewModels
+namespace TCRMDesktopUI.Models
 {
     public class ProductDisplayModel : Screen
     {

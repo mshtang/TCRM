@@ -24,6 +24,7 @@ namespace TCRMDesktopUI.ViewModels
             }
         }
 
+
         public BaseViewModel(IEventAggregator events, SalesViewModel salesVM, ILoggedInUserModel user, IAPIHelper apiHelper)
         {
             _events = events;
@@ -46,6 +47,11 @@ namespace TCRMDesktopUI.ViewModels
         public void ExitApp()
         {
             TryClose();
+        }
+
+        public void ManageUsers()
+        {
+            ActivateItem(IoC.Get<ShowAppUserViewModel>());
         }
 
         public void LogOut()

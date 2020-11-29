@@ -6,8 +6,10 @@ namespace TCRMDataManager.Library.DataAccess
     {
         public User GetUserById(string id)
         {
-            var context = new TCRMContext("TCRMData");
-            return context.Users.Find(id);
+            using (var context = new TCRMContext("TCRMData"))
+            {
+                return context.Users.Find(id);
+            }
         }
     }
 }

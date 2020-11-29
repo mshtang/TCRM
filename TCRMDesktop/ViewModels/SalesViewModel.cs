@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Caliburn.Micro;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TCRMDesktopUI.Library.Api;
 using TCRMDesktopUI.Library.Models;
+using TCRMDesktopUI.Models;
 
 namespace TCRMDesktopUI.ViewModels
 {
@@ -15,19 +17,32 @@ namespace TCRMDesktopUI.ViewModels
         private IProductEndpoint _productEndpoint;
         private ISaleEndpoint _saleEndpoint;
         private IMapper _mapper;
+        public ISnackbarMessageQueue SbMessQ { get; set; }
 
-        public SalesViewModel(IProductEndpoint productEndPoint, ISaleEndpoint saleEndpoint, IMapper mapper)
+        public SalesViewModel(IProductEndpoint productEndPoint, ISaleEndpoint saleEndpoint, IMapper mapper, ISnackbarMessageQueue sbMessQ)
         {
             _productEndpoint = productEndPoint;
             _saleEndpoint = saleEndpoint;
             _mapper = mapper;
+            SbMessQ = sbMessQ;
         }
 
         protected override async void OnViewLoaded(object view)
         {
             base.OnViewLoaded(view);
-            var _productList = await _productEndpoint.GetAll();
-            var products = _mapper.Map<List<ProductDisplayModel>>(_productList);
+            var productList = new List<Product>();
+            try
+            {
+                productList = await _productEndpoint.GetAll();
+            }
+            catch (Exception)
+            {
+                SbMessQ.Enqueue("Unauthorized", "Log Out", () =>
+                {
+                    TryClose();
+                });
+            }
+            var products = _mapper.Map<List<ProductDisplayModel>>(productList);
             Products = new ObservableCollection<ProductDisplayModel>(products);
         }
 

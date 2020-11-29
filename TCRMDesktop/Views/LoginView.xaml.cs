@@ -26,10 +26,10 @@ namespace TCRMDesktopUI.Views
 
         private async void AutoLoginForDebug(object sender, RoutedEventArgs e)
         {
-            var vm = DataContext as LoginViewModel;
-            vm.UserName = "tmshdl@outlook.com";
-            vm.Password = "AdminTest.1";
-            await vm.LogIn();
+            //var vm = DataContext as LoginViewModel;
+            //vm.UserName = "tmshdl@outlook.com";
+            //vm.Password = "AdminTest.1";
+            //await vm.LogIn();
         }
 #else
         private void AutoLoginForDebug(object sender, RoutedEventArgs e) { }

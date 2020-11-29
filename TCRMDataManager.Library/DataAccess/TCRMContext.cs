@@ -37,10 +37,6 @@ namespace TCRMDataManager.Library.DataAccess
                 .WithMany()
                 .Map(m => m.MapKey("CashierId"));
 
-            //modelBuilder.Entity<Sale>()
-            //    .HasMany(s => s.SaleDetails)
-            //    .WithRequired(sd => sd.Sale);
-
             modelBuilder.Entity<SaleDetail>()
                 .ToTable("SaleDetail")
                 .HasRequired(sd => sd.Sale)

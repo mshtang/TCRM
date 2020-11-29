@@ -20,9 +20,10 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top" FontSize="18">
             <MenuItem x:Name="ExitApp" Header="_Exit" />
+            <MenuItem x:Name="ManageUsers" Header="Users" />
             <MenuItem
                 x:Name="Logout"
-                Header="_Logout"
+                Header="_Log out"
                 Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}}" />
         </Menu>
         <Grid>

@@ -101,6 +101,10 @@
             </ListBox>
 
             <!--  Column 1  -->
+            <md:Snackbar
+                Grid.Row="1"
+                Grid.Column="1"
+                MessageQueue="{Binding SbMessQ}" />
             <StackPanel
                 Grid.Row="2"
                 Grid.Column="1"

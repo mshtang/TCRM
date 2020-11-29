@@ -86,12 +86,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="EventModels\LogInEvent.cs" />
+    <Compile Include="Helper\BindingProxy.cs" />
     <Compile Include="Helper\Converters.cs" />
     <Compile Include="Helper\PasswordBoxHelper.cs" />
+    <Compile Include="Models\AppUserDisplayModel.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="Models\ProductDisplayModel.cs" />
     <Compile Include="ViewModels\SalesViewModel.cs" />
+    <Compile Include="ViewModels\ShowAppUserViewModel.cs" />
     <Compile Include="Views\BaseView.xaml.cs">
       <DependentUpon>BaseView.xaml</DependentUpon>
     </Compile>
@@ -106,6 +109,9 @@
     <Compile Include="Views\SalesView.xaml.cs">
       <DependentUpon>SalesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ShowAppUserView.xaml.cs">
+      <DependentUpon>ShowAppUserView.xaml</DependentUpon>
+    </Compile>
     <Page Include="Views\BaseView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -115,6 +121,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SalesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ShowAppUserView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
