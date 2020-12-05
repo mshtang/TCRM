@@ -49,10 +49,23 @@
                                     Style="{StaticResource MaterialDesignFlatButton}">
                                     <StackPanel>
                                         <TextBlock Text="{Binding Path=Email}" />
-                                        <TextBlock
-                                            FontSize="24"
-                                            Foreground="Red"
-                                            Text="{Binding Path=RoleValues}" />
+                                        <ItemsControl ItemsSource="{Binding Path=Roles}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Horizontal" />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock
+                                                        Margin="0,0,10,0"
+                                                        FontSize="24"
+                                                        Foreground="Red"
+                                                        Text="{Binding Path=RoleName}"
+                                                        Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
                                     </StackPanel>
                                 </Button>
                             </md:Flipper.FrontContent>
@@ -82,15 +95,16 @@
                                         Grid.Row="1"
                                         Width="500"
                                         VerticalAlignment="Center">
-                                        <ListBox ItemsSource="{Binding Path=Data.AllRoles, Source={StaticResource BindingProxy}}">
+                                        <!--<ListBox ItemsSource="{Binding Path=Data.AllRoles, Source={StaticResource BindingProxy}}">-->
+                                        <ListBox ItemsSource="{Binding Path=Roles}">
                                             <ListBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Margin="20,10,0,0" Orientation="Horizontal">
-                                                        <ToggleButton />
+                                                        <ToggleButton IsChecked="{Binding IsSelected}"/>
                                                         <TextBlock
                                                             Margin="10,0,0,0"
                                                             FontSize="24"
-                                                            Text="{Binding .}" />
+                                                            Text="{Binding RoleName}" />
                                                     </StackPanel>
                                                 </DataTemplate>
                                             </ListBox.ItemTemplate>

@@ -64,6 +64,7 @@
     <Compile Include="Models\SaleDetail.cs" />
     <Compile Include="Models\TaxCategory.cs" />
     <Compile Include="Models\AppUser.cs" />
+    <Compile Include="Models\UserRolePair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

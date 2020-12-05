@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 #if DEBUG
-using TCRMDesktopUI.ViewModels;
 #endif
 
 namespace TCRMDesktopUI.Views
@@ -24,7 +23,9 @@ namespace TCRMDesktopUI.Views
 
 #if DEBUG
 
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         private async void AutoLoginForDebug(object sender, RoutedEventArgs e)
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             //var vm = DataContext as LoginViewModel;
             //vm.UserName = "tmshdl@outlook.com";

@@ -34,7 +34,7 @@ namespace TCRMDesktopUI
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Product, ProductDisplayModel>();
-                cfg.CreateMap<AppUser, AppUserDisplayModel>();
+                //cfg.CreateMap<AppUser, AppUserDisplayModel>();
             });
 
             var mapper = config.CreateMapper();

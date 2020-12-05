@@ -31,18 +31,42 @@ namespace TCRMDesktopUI.Library.Api
             }
         }
 
-        public async Task<List<string>> GetAllRoles()
+        public async Task<Dictionary<string, string>> GetAllRoles()
         {
             using (var response = await _apiHelper.ApiClient.GetAsync("api/User/Admin/GetAllRoles"))
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = await response.Content.ReadAsAsync<List<string>>();
+                    var result = await response.Content.ReadAsAsync<Dictionary<string, string>>();
                     return result;
                 }
                 else
                 {
                     throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+        public async Task AddRole(string userId, string role)
+        {
+            var data = new { userId, role };
+            using (var response = await _apiHelper.ApiClient.PostAsJsonAsync("api/User/Admin/AddRole", data))
+            {
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new System.Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+        public async Task RemoveRole(string userId, string role)
+        {
+            var data = new { userId, role };
+            using (var response = await _apiHelper.ApiClient.PostAsJsonAsync("api/User/Admin/RemoveRole", data))
+            {
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new System.Exception(response.ReasonPhrase);
                 }
             }
         }

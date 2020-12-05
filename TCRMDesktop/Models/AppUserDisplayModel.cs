@@ -1,6 +1,6 @@
 ﻿using Caliburn.Micro;
-using System.Collections.Generic;
-using System.Linq;
+using System.Collections.ObjectModel;
+using TCRMDesktopUI.Library.Api;
 
 namespace TCRMDesktopUI.Models
 {
@@ -10,20 +10,45 @@ namespace TCRMDesktopUI.Models
 
         public string Email { get; set; }
 
-        private Dictionary<string, string> _roles;
-        public Dictionary<string, string> Roles
+        public ObservableCollection<RoleViewModel> Roles { get; set; } = new ObservableCollection<RoleViewModel>();
+    }
+
+    public class RoleViewModel : Screen
+    {
+        private IUserEndpoint _userEndpoint;
+        private string _userId;
+
+        public string RoleId { get; set; }
+
+        public string RoleName { get; set; }
+
+        private bool _isSelected;
+
+        public bool IsSelected
         {
-            get => _roles;
+            get => _isSelected;
             set
             {
-                _roles = value;
+                _isSelected = value;
                 NotifyOfPropertyChange();
+                if (value == true)
+                {
+                    _userEndpoint.AddRole(_userId, RoleName);
+                }
+                else
+                {
+                    _userEndpoint.RemoveRole(_userId, RoleName);
+                }
             }
         }
 
-        public string RoleValues
+        public RoleViewModel() { }
+
+        public RoleViewModel(IUserEndpoint userEndpoint, string userId)
         {
-            get => string.Join(" ", Roles.Select(r => r.Value));
+            _userEndpoint = userEndpoint;
+            _userId = userId;
         }
     }
 }
+

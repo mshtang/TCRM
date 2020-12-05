@@ -66,17 +66,47 @@ namespace TCRMDataManager.Controllers
 #else
         [Authorize(Roles = "Admin")]
 #endif
-        public List<string> GetAllRoles()
+        public Dictionary<string, string> GetAllRoles()
         {
-            var roleRes = new List<string>();
-
             using (var context = new ApplicationDbContext())
             {
-                var roles = context.Roles.ToList();
-                roleRes = roles.Select(r => r.Name).ToList();
+                var roles = context.Roles.ToDictionary(r => r.Id, r => r.Name);
+                return roles;
             }
+        }
 
-            return roleRes;
+        [HttpPost]
+        [Route("api/User/Admin/AddRole")]
+#if DEBUG
+        [AllowAnonymous]
+#else
+        [Authorize(Roles = "Admin")]
+#endif
+        public void AddRole(UserRolePairModel userRolePair)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var userStore = new UserStore<ApplicationUser>(context);
+                var userManager = new UserManager<ApplicationUser>(userStore);
+                userManager.AddToRole(userRolePair.UserId, userRolePair.Role);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/User/Admin/RemoveRole")]
+#if DEBUG
+        [AllowAnonymous]
+#else
+        [Authorize(Roles = "Admin")]
+#endif
+        public void RemoveRole(UserRolePairModel userRolePair)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var userStore = new UserStore<ApplicationUser>(context);
+                var userManager = new UserManager<ApplicationUser>(userStore);
+                userManager.RemoveFromRole(userRolePair.UserId, userRolePair.Role);
+            }
         }
     }
 }
