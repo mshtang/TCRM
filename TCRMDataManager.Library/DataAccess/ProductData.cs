@@ -8,8 +8,10 @@ namespace TCRMDataManager.Library.DataAccess
     {
         public List<Product> GetProducts()
         {
-            var context = new TCRMContext("TCRMData");
-            return context.Products.Include("Tax").ToList();
+            using (var context = new TCRMContext("TCRMData"))
+            {
+                return context.Products.ToList();
+            }
         }
 
         public Product GetProductById(int id)
